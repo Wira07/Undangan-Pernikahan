@@ -247,13 +247,41 @@ function initMusicPlayer() {
   const musicToggle = document.createElement("div");
   musicToggle.className = "music-toggle";
   musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+
+  // Tambahkan style langsung via JS
+  Object.assign(musicToggle.style, {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    backgroundColor: "#fff",
+    borderRadius: "50%",
+    width: "50px",
+    height: "50px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    cursor: "pointer",
+    boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+    zIndex: "9999",
+    transition: "background-color 0.3s ease",
+  });
+
+  const icon = musicToggle.querySelector("i");
+  Object.assign(icon.style, {
+    color: "#444",
+    fontSize: "20px",
+    transition: "color 0.3s ease",
+  });
+
   document.body.appendChild(musicToggle);
 
   // Create audio element
   const audio = document.createElement("audio");
   audio.loop = true;
-  // In a real implementation, you would specify the actual music file
-  // audio.src = 'path/to/your/wedding-music.mp3';
+
+  // ✅ Tambahkan path musik undangan digital
+  audio.src = "audio/Tiara Andini, Arsy Widianto - Lagu Pernikahan Kita.mp3";
+
   document.body.appendChild(audio);
 
   // Toggle music play/pause
@@ -263,12 +291,17 @@ function initMusicPlayer() {
     if (isPlaying) {
       audio.pause();
       musicToggle.classList.add("paused");
+      icon.classList.remove("fa-pause");
+      icon.classList.add("fa-music");
+      icon.style.color = "#aaa"; // Warna saat pause
     } else {
       audio.play().catch((e) => {
-        // Auto-play may be blocked by browser
         console.log("Audio play was prevented by browser.");
       });
       musicToggle.classList.remove("paused");
+      icon.classList.remove("fa-music");
+      icon.classList.add("fa-pause");
+      icon.style.color = "#444"; // Warna saat play
     }
 
     isPlaying = !isPlaying;
